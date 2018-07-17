@@ -12,6 +12,11 @@
     $password = $_SESSION['register']['password'];
     $img_name = $_SESSION['register']['img_name'];
 
+    if (!empty($_POST)) {
+        // この中のデータベース登録処理を記述
+        echo '通過テスト' . '<br>';
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">

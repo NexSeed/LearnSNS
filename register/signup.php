@@ -5,6 +5,14 @@
 
     $errors = [];
 
+    if (isset($_GET['action']) && $_GET['action'] == 'rewrite') {
+        $_POST['input_name'] = $_SESSION['register']['name'];
+        $_POST['input_email'] = $_SESSION['register']['email'];
+        $_POST['input_password'] = $_SESSION['register']['password'];
+
+        $errors['rewrite'] = true;
+    }
+
     if (!empty($_POST)) {
         $name = $_POST['input_name'];
         $email = $_POST['input_email'];
@@ -26,7 +34,13 @@
             $errors['password'] = 'length';
         }
 
-        $file_name = $_FILES['input_img_name']['name'];
+        $file_name = ''; //①
+        if (!isset($_GET['action'])) { //②
+            $file_name = $_FILES['input_img_name']['name']; 
+        }
+        
+
+
         if (!empty($file_name)) {
             // 拡張子チェックの処理
             $file_type = substr($file_name, -3); // 画像名の後ろから3文字を取得
@@ -75,14 +89,16 @@
                 <form method="POST" action="signup.php" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="name">ユーザー名</label>
-                        <input type="text" name="input_name" class="form-control" id="name" placeholder="山田 太郎">
+                        <input type="text" name="input_name" class="form-control" id="name" placeholder="山田 太郎"
+                            value="<?php echo htmlspecialchars($name); ?>">
                         <?php if (isset($errors['name']) && $errors['name'] == 'blank'): ?>
                             <p class="text-danger">ユーザー名を入力してください</p>
                         <?php endif; ?>
                     </div>
                     <div class="form-group">
                         <label for="email">メールアドレス</label>
-                        <input type="email" name="input_email" class="form-control" id="email" placeholder="example@gmail.com">
+                        <input type="email" name="input_email" class="form-control" id="email" placeholder="example@gmail.com"
+                            value="<?php echo htmlspecialchars($email); ?>">
                         <?php if (isset($errors['email']) && $errors['email'] == 'blank'): ?>
                             <p class="text-danger">メールアドレスを入力してください</p>
                         <?php endif; ?>

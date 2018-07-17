@@ -3,6 +3,8 @@
 
     date_default_timezone_set('Asia/Manila');
 
+    $name = '';
+    $email = '';
     $errors = [];
 
     if (isset($_GET['action']) && $_GET['action'] == 'rewrite') {
@@ -111,6 +113,9 @@
                         <?php endif; ?>
                         <?php if(isset($errors['password']) && $errors['password'] == 'length'): ?>
                             <p class="text-danger">パスワードは4 ~ 16文字で入力してください</p>
+                        <?php endif; ?>
+                        <?php if (!empty($errors)): ?>
+                            <p class="text-danger">パスワードを再度入力して下さい</p>
                         <?php endif; ?>
                     </div>
                     <div class="form-group">

@@ -2,10 +2,10 @@
 
     session_start();
 
-    echo $_SESSION['register']['name'] . '<br>';
-    echo $_SESSION['register']['email'] . '<br>';
-    echo $_SESSION['register']['password'] . '<br>';
-    echo $_SESSION['register']['img_name'] . '<br>';
+    $name = $_SESSION['register']['name'];
+    $email = $_SESSION['register']['email'];
+    $password = $_SESSION['register']['password'];
+    $img_name = $_SESSION['register']['img_name'];
 
 ?>
 <!DOCTYPE html>
@@ -19,7 +19,39 @@
 <body style="margin-top: 60px">
     <div class="container">
         <div class="row">
-            <img src="../user_profile_img/<?php echo $_SESSION['register']['img_name']; ?>"
+            <!-- ここから -->
+            <div class="col-xs-8 col-xs-offset-2 thumbnail">
+                <h2 class="text-center content_header">アカウント情報確認</h2>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <img src="../user_profile_img/<?php echo htmlspecialchars($img_name); ?>" class="img-responsive img-thumbnail">
+                    </div>
+                    <div class="col-xs-8">
+                        <div>
+                            <span>ユーザー名</span>
+                            <p class="lead"><?php echo htmlspecialchars($name); ?></p>
+                        </div>
+                        <div>
+                            <span>メールアドレス</span>
+                            <p class="lead"><?php echo htmlspecialchars($email); ?></p>
+                        </div>
+                        <div>
+                            <span>パスワード</span>
+                            <!-- ② -->
+                            <p class="lead">●●●●●●●●</p>
+                        </div>
+                        <!-- ③ -->
+                        <form method="POST" action="">
+                            <!-- ④ -->
+                            <a href="signup.php?action=rewrite" class="btn btn-default">&laquo;&nbsp;戻る</a> | 
+                            <!-- ⑤ -->
+                            <input type="hidden" name="action" value="submit">
+                            <input type="submit" class="btn btn-primary" value="ユーザー登録">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- ここまで -->
         </div>
     </div>
     <script src="../assets/js/jquery-3.1.1.js"></script>

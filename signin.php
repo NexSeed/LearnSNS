@@ -1,5 +1,18 @@
 <?php
-// サインイン処理
+
+    $errors = [];
+
+        if (!empty($_POST)) {
+            // ①
+            $email = $_POST['input_email'];
+            $password = $_POST['input_password'];
+
+            if ($email != '' && $password != '') {
+                // データベースとの照合処理
+            } else {
+                $errors['signin'] = 'blank';
+            }
+        }
 ?>
 <!DOCTYPE html>
 <html lang="ja">

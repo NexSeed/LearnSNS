@@ -20,6 +20,13 @@
                 if ($record == false) {
                     $errors['signin'] = 'failed';
                 }
+
+                if (password_verify($password, $record['password'])) {
+                    //認証成功
+                } else {
+                    //認証失敗
+                  $errors['signin'] = 'failed';
+                }
             } else {
                 $errors['signin'] = 'blank';
             }

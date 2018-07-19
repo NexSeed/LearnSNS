@@ -1,5 +1,7 @@
 <?php
 
+    session_start();
+
     require_once('dbconnect.php');
 
     $errors = [];
@@ -23,6 +25,11 @@
 
                 if (password_verify($password, $record['password'])) {
                     //認証成功
+                    //SESSION変数にIDを保存
+                    $_SESSION['id'] = $record['id'];
+
+                    header("Location: timeline.php");
+                    exit();
                 } else {
                     //認証失敗
                   $errors['signin'] = 'failed';

@@ -1,5 +1,7 @@
 <?php
 
+    require_once('dbconnect.php');
+
     $errors = [];
 
         if (!empty($_POST)) {
@@ -8,7 +10,16 @@
             $password = $_POST['input_password'];
 
             if ($email != '' && $password != '') {
-                // データベースとの照合処理
+                $sql = 'SELECT * FROM `users` WHERE `email`=?';
+                $data = [$email];
+                $stmt = $dbh->prepare($sql);
+                $stmt->execute($data);
+                $record = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                // メールアドレスでの本人確認
+                if ($record == false) {
+                    $errors['signin'] = 'failed';
+                }
             } else {
                 $errors['signin'] = 'blank';
             }
@@ -32,8 +43,11 @@
                     <div class="form-group">
                         <label for="email">メールアドレス</label>
                         <input type="email" name="input_email" class="form-control" id="email" placeholder="example@gmail.com">
-                        <?php if(isset($errors['signin']) && $errors['signin'] == 'blank'): ?>
+                        <?php if (isset($errors['signin']) && $errors['signin'] == 'blank'): ?>
                             <p class="text-danger">メールアドレスとパスワードを正しく入力してください</p>
+                        <?php endif; ?>
+                        <?php if (isset($errors['signin']) && $errors['signin'] == 'failed'): ?>
+                            <p class="text-danger">サインインに失敗しました</p>
                         <?php endif; ?>
                     </div>
                     <div class="form-group">

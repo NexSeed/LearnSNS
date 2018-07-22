@@ -33,6 +33,26 @@
         }
     }
 
+        // LEFT JOINで全件取得
+    $sql = 'SELECT `f`.*, `u`.`name`, `u`.`img_name` FROM `feeds` AS `f` LEFT JOIN `users` AS `u` ON `f`.`user_id`=`u`.`id` ORDER BY `created` DESC';
+    $data = array();
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute($data);
+
+    // 表示用の配列を初期化
+    $feeds = array();
+
+    while (true) {
+        $record = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($record == false) {
+            break;
+        }
+        $feeds[] = $record;
+    }
+
+    echo '<pre>';
+    var_dump($feeds);die();
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">

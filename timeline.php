@@ -170,8 +170,10 @@
                                 </form>
                                 <span class="like_count">いいね数 : 100</span>
                                 <span class="comment_count">コメント数 : 9</span>
-                                <a href="#" class="btn btn-success btn-xs">編集</a>
-                                <a href="#" class="btn btn-danger btn-xs">削除</a>
+                                <?php if ($feed["user_id"] == $_SESSION["id"] ): ?>
+                                    <a href="edit.php?feed_id=<?php echo $feed["id"] ?>" class="btn btn-success btn-xs">編集</a>
+                                    <a onclick="return confirm('ほんとに消すの？');" href="delete.php?feed_id=<?php echo $feed["id"] ?>" class="btn btn-danger btn-xs">削除</a>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

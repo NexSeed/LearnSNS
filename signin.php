@@ -6,38 +6,38 @@
 
     $errors = [];
 
-        if (!empty($_POST)) {
-            // ①
-            $email = $_POST['input_email'];
-            $password = $_POST['input_password'];
+    if (!empty($_POST)) {
+        // ①
+        $email = $_POST['input_email'];
+        $password = $_POST['input_password'];
 
-            if ($email != '' && $password != '') {
-                $sql = 'SELECT * FROM `users` WHERE `email`=?';
-                $data = [$email];
-                $stmt = $dbh->prepare($sql);
-                $stmt->execute($data);
-                $record = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($email != '' && $password != '') {
+            $sql = 'SELECT * FROM `users` WHERE `email`=?';
+            $data = [$email];
+            $stmt = $dbh->prepare($sql);
+            $stmt->execute($data);
+            $record = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                // メールアドレスでの本人確認
-                if ($record == false) {
-                    $errors['signin'] = 'failed';
-                }
-
-                if (password_verify($password, $record['password'])) {
-                    //認証成功
-                    //SESSION変数にIDを保存
-                    $_SESSION['id'] = $record['id'];
-
-                    header("Location: timeline.php");
-                    exit();
-                } else {
-                    //認証失敗
-                  $errors['signin'] = 'failed';
-                }
-            } else {
-                $errors['signin'] = 'blank';
+            // メールアドレスでの本人確認
+            if ($record == false) {
+                $errors['signin'] = 'failed';
             }
+
+            if (password_verify($password, $record['password'])) {
+                //認証成功
+                //SESSION変数にIDを保存
+                $_SESSION['id'] = $record['id'];
+
+                header("Location: timeline.php");
+                exit();
+            } else {
+                //認証失敗
+              $errors['signin'] = 'failed';
+            }
+        } else {
+            $errors['signin'] = 'blank';
         }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="ja">

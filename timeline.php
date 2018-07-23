@@ -1,6 +1,8 @@
 <?php
     session_start();
     require('dbconnect.php');
+
+    const CONTENT_PER_PAGE = 5;
  
     $sql = 'SELECT * FROM `users` WHERE `id`=?';
     $data = array($_SESSION['id']);
@@ -13,10 +15,29 @@
     $errors = array();
 
     if (isset($_GET['page'])) {
-      $page = $_GET['page'];
+        $page = $_GET['page'];
     } else {
-      $page = 1;
+        $page = 1;
     }
+
+    // -1などのページ数として不正な値を渡された場合の対策
+    $page = max($page, 1);
+
+    // ヒットしたレコードの数を取得するSQL
+    $sql_count = "SELECT COUNT(*) AS `cnt` FROM `feeds`";
+
+    $stmt_count = $dbh->prepare($sql_count);
+    $stmt_count->execute();
+
+    $record_cnt = $stmt_count->fetch(PDO::FETCH_ASSOC);
+
+    // 取得したページ数を1ページあたりに表示する件数で割って何ページが最後になるか取得
+    $last_page = ceil($record_cnt['cnt'] / CONTENT_PER_PAGE);
+
+    // 最後のページより大きい値を渡された場合の対策
+    $page = min($page, $last_page);
+
+    $start = ($page - 1) * CONTENT_PER_PAGE;
 
     // ユーザーが投稿ボタンを押したら発動
     if (!empty($_POST)) {
@@ -40,7 +61,7 @@
     }
 
         // LEFT JOINで全件取得
-    $sql = 'SELECT `f`.*, `u`.`name`, `u`.`img_name` FROM `feeds` AS `f` LEFT JOIN `users` AS `u` ON `f`.`user_id`=`u`.`id` ORDER BY `created` DESC LIMIT 5 OFFSET 0';
+    $sql = 'SELECT `f`.*, `u`.`name`, `u`.`img_name` FROM `feeds` AS `f` LEFT JOIN `users` AS `u` ON `f`.`user_id`=`u`.`id` ORDER BY `created` DESC LIMIT '. CONTENT_PER_PAGE .' OFFSET ' . $start;
     $data = array();
     $stmt = $dbh->prepare($sql);
     $stmt->execute($data);

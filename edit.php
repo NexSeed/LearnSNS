@@ -3,6 +3,17 @@
 
     $feed_id = $_GET["feed_id"];
 
+    if (!empty($_POST)) {
+        $update_sql = "UPDATE `feeds` SET `feed` = ? WHERE `feeds`.`id` = ?";
+
+        $data = array($_POST["feed"],$feed_id);
+        $stmt = $dbh->prepare($update_sql);
+        $stmt->execute($data);
+
+        header("Location: timeline.php");
+        exit();
+    }
+
     $sql = "SELECT `feeds`.*,`users`.`name`,`users`.`img_name` FROM `feeds` LEFT JOIN `users` ON `feeds`.`user_id`=`users`.`id` WHERE `feeds`.`id`=$feed_id";
 
     $stmt = $dbh->prepare($sql);

@@ -1,5 +1,7 @@
 <?php
 
+    echo 'プルリクテスト';
+
     session_start();
 
     require_once('dbconnect.php');

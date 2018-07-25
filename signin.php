@@ -1,6 +1,7 @@
 <?php
 
     echo 'プルリクテスト';
+    echo '変更１'；
 
     session_start();
 

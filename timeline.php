@@ -181,12 +181,12 @@
                                 <?php if ($feed['is_liked']): ?>
                                     <button class="btn btn-default btn-xs js-unlike">
                                         <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                                        いいねを取り消す
+                                        <span>いいねを取り消す</span>
                                     </button>
                                 <?php else: ?>
                                     <button class="btn btn-default btn-xs js-like">
                                         <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                                        いいね！
+                                        <span>いいね!</span>
                                     </button>
                                 <?php endif; ?>
                                 <span>いいね数 : </span>

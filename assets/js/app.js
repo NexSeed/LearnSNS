@@ -1,6 +1,6 @@
 $(function() {
 
-    $('.js-like').on('click', function() {
+    $(document).on('click', '.js-like', function() {
         var feed_id = $(this).siblings('.feed-id').text();
         var user_id = $('#signin-user').text();
         var like_btn = $(this);
@@ -21,6 +21,9 @@ $(function() {
             if (data == 'true') {
                 like_count++;
                 like_btn.siblings('.like_count').text(like_count);
+                like_btn.removeClass('js-like');
+                like_btn.addClass('js-unlike');
+                like_btn.children('span').text('いいねを取り消す');
             }
         })
         .fail(function(err) {
@@ -28,7 +31,7 @@ $(function() {
         })
     });
 
-    $('.js-unlike').on('click', function() {
+    $(document).on('click', '.js-unlike', function() {
         var feed_id = $(this).siblings('.feed-id').text();
         var user_id = $('#signin-user').text();
         var like_btn = $(this);
@@ -48,6 +51,9 @@ $(function() {
             if (data == 'true') {
                 like_count--;
                 like_btn.siblings('.like_count').text(like_count);
+                like_btn.removeClass('js-unlike');
+                like_btn.addClass('js-like');
+                like_btn.children('span').text('いいね!');
             }
         })
         .fail(function(err) {

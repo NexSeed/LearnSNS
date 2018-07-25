@@ -1,6 +1,7 @@
 <?php
 
     echo 'プルリクテスト';
+    echo 'hogehoge';
 
     session_start();
 

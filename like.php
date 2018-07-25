@@ -15,4 +15,4 @@
     $stmt = $dbh->prepare($sql);
     $res = $stmt->execute($data);
 
-     echo json_encode($res);
+    echo json_encode($res);

@@ -74,6 +74,20 @@
         if ($record == false) {
             break;
         }
+
+        // いいね済みかどうかの確認
+        $like_flg_sql = "SELECT `id` FROM `likes` WHERE `user_id` = ? AND `feed_id` = ?";
+
+        $like_flg_data = [$signin_user['id'], $record["id"]];
+
+        $like_flg_stmt = $dbh->prepare($like_flg_sql);
+        $like_flg_stmt->execute($like_flg_data);
+
+        $is_liked = $like_flg_stmt->fetch(PDO::FETCH_ASSOC);
+
+        // 三項演算子 条件式 ? trueだった場合 : falseだった場合
+        $record["is_liked"] = $is_liked ? true : false;
+
         $feeds[] = $record;
     }
 
@@ -164,10 +178,17 @@
                         <div class="row feed_sub">
                             <div class="col-xs-12">
                                 <span hidden class="feed-id"><?= $feed["id"] ?></span>
-                                <button class="btn btn-default btn-xs js-like">
-                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                                    いいね！
-                                </button>
+                                <?php if ($feed['is_liked']): ?>
+                                    <button class="btn btn-default btn-xs js-unlike">
+                                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                        いいねを取り消す
+                                    </button>
+                                <?php else: ?>
+                                    <button class="btn btn-default btn-xs js-like">
+                                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                        いいね！
+                                    </button>
+                                <?php endif; ?>
                                 <span>いいね数 : </span>
                                 <span class="like_count">100</span>
                                 <span class="comment_count">コメント数 : 9</span>
@@ -199,7 +220,7 @@
     </div>
     <script src="assets/js/jquery-3.1.1.js"></script>
     <script src="assets/js/jquery-migrate-1.4.1.js"></script>
-    <script src="assets/js/bootstrap.js"></script>¥
+    <script src="assets/js/bootstrap.js"></script>
     <script src="assets/js/app.js"></script>
 </body>
 </html>

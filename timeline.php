@@ -3,7 +3,7 @@
     require('dbconnect.php');
 
     const CONTENT_PER_PAGE = 5;
- 
+    
     $sql = 'SELECT * FROM `users` WHERE `id`=?';
     $data = array($_SESSION['id']);
     $stmt = $dbh->prepare($sql);
@@ -60,12 +60,16 @@
         }
     }
 
+    if (isset($_GET['search_word'])) {
+        $sql = 'SELECT `f`.*, `u`.`name`, `u`.`img_name` FROM `feeds` AS `f` LEFT JOIN `users` AS `u` ON `f`.`user_id`=`u`.`id` WHERE f.feed LIKE "%"? "%" ORDER BY `created` DESC LIMIT '. CONTENT_PER_PAGE .' OFFSET ' . $start;
+        $data = [$_GET['search_word']];
+    } else {
         // LEFT JOINで全件取得
-    $sql = 'SELECT `f`.*, `u`.`name`, `u`.`img_name` FROM `feeds` AS `f` LEFT JOIN `users` AS `u` ON `f`.`user_id`=`u`.`id` ORDER BY `created` DESC LIMIT '. CONTENT_PER_PAGE .' OFFSET ' . $start;
-    $data = array();
+        $sql = 'SELECT `f`.*, `u`.`name`, `u`.`img_name` FROM `feeds` AS `f` LEFT JOIN `users` AS `u` ON `f`.`user_id`=`u`.`id` ORDER BY `created` DESC LIMIT '. CONTENT_PER_PAGE .' OFFSET ' . $start;
+        $data = [];
+    }
     $stmt = $dbh->prepare($sql);
     $stmt->execute($data);
-
     // 表示用の配列を初期化
     $feeds = array();
 

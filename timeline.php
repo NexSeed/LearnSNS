@@ -9,26 +9,10 @@
 
     $errors = [];
 
-    if (isset($_GET['page'])) {
-        $page = $_GET['page'];
-    } else {
-        $page = 1;
-    }
+     if (!empty($_POST)) {
 
-    $page = max($page, 1);
-
-    $last_page = get_last_page($dbh);
-
-    $page = min($page, $last_page);
-
-    $start = ($page - 1) * CONTENT_PER_PAGE;
-
-    if (!empty($_POST)) {
-
-        $feed = $_POST['feed'];
-
-        if ($feed != '') {
-            create_feed($dbh, $feed, $signin_user['id']);
+        if ($_POST['feed'] != '') {
+            create_feed($dbh, $_POST['feed'], $signin_user['id']);
 
             header('Location: timeline.php');
             exit();
@@ -36,11 +20,22 @@
         $errors['feed'] = 'blank';
     }
 
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    
+    $page = max($page, 1);
+    
+    $last_page = get_last_page($dbh);
+    
+    $page = min($page, $last_page);
+
+    $start = ($page - 1) * CONTENT_PER_PAGE;
+
+
     if (isset($_GET['search_word'])) {
-        $sql = 'SELECT `f`.*, `u`.`name`, `u`.`img_name` FROM `feeds` AS `f` LEFT JOIN `users` AS `u` ON `f`.`user_id`=`u`.`id` WHERE f.feed LIKE "%"? "%" ORDER BY `created` DESC LIMIT '. CONTENT_PER_PAGE .' OFFSET ' . $start;
+        $sql = get_searched_feeds_sql($start);
         $data = [$_GET['search_word']];
     } else {
-        $sql = 'SELECT `f`.*, `u`.`name`, `u`.`img_name` FROM `feeds` AS `f` LEFT JOIN `users` AS `u` ON `f`.`user_id`=`u`.`id` ORDER BY `created` DESC LIMIT '. CONTENT_PER_PAGE .' OFFSET ' . $start;
+        $sql = get_all_feeds_sql($start);
         $data = [];
     }
     $stmt = $dbh->prepare($sql);

@@ -59,3 +59,13 @@
         // 取得したページ数を1ページあたりに表示する件数で割って何ページが最後になるか取得
         return ceil($record_cnt['cnt'] / CONTENT_PER_PAGE);
     }
+
+    function get_searched_feeds_sql($start)
+    {
+        return 'SELECT `f`.*, `u`.`name`, `u`.`img_name` FROM `feeds` AS `f` LEFT JOIN `users` AS `u` ON `f`.`user_id`=`u`.`id` WHERE f.feed LIKE "%"? "%" ORDER BY `created` DESC LIMIT '. CONTENT_PER_PAGE .' OFFSET ' . $start;
+    }
+
+    function get_all_feeds_sql($start)
+    {
+        return 'SELECT `f`.*, `u`.`name`, `u`.`img_name` FROM `feeds` AS `f` LEFT JOIN `users` AS `u` ON `f`.`user_id`=`u`.`id` ORDER BY `created` DESC LIMIT '. CONTENT_PER_PAGE .' OFFSET ' . $start;
+    }

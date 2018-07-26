@@ -7,8 +7,7 @@
 
     $signin_user = get_user($dbh, $_SESSION['id']);
 
-        // 初期化
-    $errors = array();
+    $errors = [];
 
     if (isset($_GET['page'])) {
         $page = $_GET['page'];
@@ -16,54 +15,37 @@
         $page = 1;
     }
 
-    // -1などのページ数として不正な値を渡された場合の対策
     $page = max($page, 1);
 
-    // ヒットしたレコードの数を取得するSQL
-    $sql_count = "SELECT COUNT(*) AS `cnt` FROM `feeds`";
+    $last_page = get_last_page($dbh);
 
-    $stmt_count = $dbh->prepare($sql_count);
-    $stmt_count->execute();
-
-    $record_cnt = $stmt_count->fetch(PDO::FETCH_ASSOC);
-
-    // 取得したページ数を1ページあたりに表示する件数で割って何ページが最後になるか取得
-    $last_page = ceil($record_cnt['cnt'] / CONTENT_PER_PAGE);
-
-    // 最後のページより大きい値を渡された場合の対策
     $page = min($page, $last_page);
 
     $start = ($page - 1) * CONTENT_PER_PAGE;
 
-    // ユーザーが投稿ボタンを押したら発動
     if (!empty($_POST)) {
 
-        // バリデーション
-        $feed = $_POST['feed']; // 投稿データ
+        $feed = $_POST['feed'];
 
-        // 投稿の空チェック
         if ($feed != '') {
             create_feed($dbh, $feed, $signin_user['id']);
 
             header('Location: timeline.php');
             exit();
-        } else {
-            $errors['feed'] = 'blank';
-        }
+        } 
+        $errors['feed'] = 'blank';
     }
 
     if (isset($_GET['search_word'])) {
         $sql = 'SELECT `f`.*, `u`.`name`, `u`.`img_name` FROM `feeds` AS `f` LEFT JOIN `users` AS `u` ON `f`.`user_id`=`u`.`id` WHERE f.feed LIKE "%"? "%" ORDER BY `created` DESC LIMIT '. CONTENT_PER_PAGE .' OFFSET ' . $start;
         $data = [$_GET['search_word']];
     } else {
-        // LEFT JOINで全件取得
         $sql = 'SELECT `f`.*, `u`.`name`, `u`.`img_name` FROM `feeds` AS `f` LEFT JOIN `users` AS `u` ON `f`.`user_id`=`u`.`id` ORDER BY `created` DESC LIMIT '. CONTENT_PER_PAGE .' OFFSET ' . $start;
         $data = [];
     }
     $stmt = $dbh->prepare($sql);
     $stmt->execute($data);
-    // 表示用の配列を初期化
-    $feeds = array();
+    $feeds = [];
 
     while (true) {
         $record = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -71,10 +53,8 @@
             break;
         }
 
-        // 何件いいねされているか確認
         $record["like_cnt"] = count_like($dbh, $record["id"]);
 
-        // いいね済みかどうかの確認
         $record["is_liked"] = is_liked($dbh, $signin_user['id'], $record["id"]);
 
         $feeds[] = $record;

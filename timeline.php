@@ -1,15 +1,11 @@
 <?php
     session_start();
     require('dbconnect.php');
+    require('function.php');
 
     const CONTENT_PER_PAGE = 5;
-    
-    $sql = 'SELECT * FROM `users` WHERE `id`=?';
-    $data = array($_SESSION['id']);
-    $stmt = $dbh->prepare($sql);
-    $stmt->execute($data);
-  
-    $signin_user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $signin_user = get_user($dbh, $_SESSION['id']);
 
         // 初期化
     $errors = array();

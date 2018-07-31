@@ -1,4 +1,5 @@
 <?php
+    echo 123;
     session_start();
     require('dbconnect.php');
     require('function.php');

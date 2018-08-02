@@ -45,3 +45,17 @@
 
         return $is_liked ? true : false;
     }
+
+    function feed_count($dbh, $feed_id)
+    {
+        $feed_sql = "SELECT COUNT(*) AS `feed_cnt` FROM `feeds` WHERE `user_id` = ?";
+
+        $feed_data = [$feed_id];
+
+        $feed_stmt = $dbh->prepare($feed_sql);
+        $feed_stmt->execute($feed_data);
+
+        $feed = $feed_stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $feed["feed_cnt"];
+    }

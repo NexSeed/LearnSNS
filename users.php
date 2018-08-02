@@ -20,7 +20,9 @@
             break;
         }
 
-       $users[] = $record;
+        $record["feed_cnt"] = feed_count($dbh, $record["id"]);
+
+        $users[] = $record;
     }
 ?>
 <!DOCTYPE html>
@@ -83,7 +85,7 @@
                         </div>
                         <div class="row feed_sub">
                             <div class="col-xs-12">
-                                <span class="comment_count">つぶやき数 : { 投稿数 }</span>
+                                <span class="comment_count">つぶやき数 : <?php echo $user["feed_cnt"]; ?></span>
                             </div>
                         </div>
                     </div><!-- thumbnail -->

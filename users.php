@@ -20,7 +20,7 @@
             break;
         }
 
-        $record["feed_cnt"] = feed_count($dbh, $record["id"]);
+        $record["feed_cnt"] = count_feed($dbh, $record["id"]);
 
         $users[] = $record;
     }

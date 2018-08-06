@@ -46,7 +46,7 @@
         return $is_liked ? true : false;
     }
 
-    function feed_count($dbh, $feed_id)
+    function count_feed($dbh, $feed_id)
     {
         $feed_sql = "SELECT COUNT(*) AS `feed_cnt` FROM `feeds` WHERE `user_id` = ?";
 

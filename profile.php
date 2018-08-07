@@ -7,6 +7,7 @@
     $signin_user = get_user($dbh, $_SESSION["id"]);
 
     $profile_user = get_user($dbh, $_GET['user_id']);
+
 ?>
 
 <!DOCTYPE html>
@@ -24,8 +25,10 @@
         <div class="row">
             <div class="col-xs-3 text-center">
                 <img src="user_profile_img/<?= $profile_user['img_name'] ?>" class="img-thumbnail" />
-                <h2><?php echo $profile_user["name"]; ?></h2>
-                <a href="follow.php?follower_id="><button class="btn btn-default btn-block">フォローする</button></a>
+                <h2><?php echo $profile_user['name']; ?></h2>
+                <?php if ($signin_user['id'] != $profile_user['id']): ?>
+                    <a href="follow.php?follower_id=<?php echo $profile_user["id"]; ?>"><button class="btn btn-default btn-block">フォローする</button></a>
+                <?php endif; ?>
             </div>
 
             <div class="col-xs-9">

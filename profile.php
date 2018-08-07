@@ -8,6 +8,8 @@
 
     $profile_user = get_user($dbh, $_GET['user_id']);
 
+    $is_followed = is_followed($dbh, $signin_user['id'], $profile_user['id']);
+
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +29,11 @@
                 <img src="user_profile_img/<?= $profile_user['img_name'] ?>" class="img-thumbnail" />
                 <h2><?php echo $profile_user['name']; ?></h2>
                 <?php if ($signin_user['id'] != $profile_user['id']): ?>
-                    <a href="follow.php?follower_id=<?php echo $profile_user["id"]; ?>"><button class="btn btn-default btn-block">フォローする</button></a>
+                    <?php if ($is_followed): ?>
+                        <a href="follow.php?follower_id=<?= $profile_user["id"]; ?>"><button class="btn btn-default btn-block">フォロー解除する</button></a>
+                    <?php else: ?>
+                        <a href="follow.php?follower_id=<?= $profile_user["id"]; ?>"><button class="btn btn-default btn-block">フォローする</button></a>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
 

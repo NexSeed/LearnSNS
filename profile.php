@@ -30,7 +30,7 @@
                 <h2><?php echo $profile_user['name']; ?></h2>
                 <?php if ($signin_user['id'] != $profile_user['id']): ?>
                     <?php if ($is_followed): ?>
-                        <a href="follow.php?follower_id=<?= $profile_user["id"]; ?>"><button class="btn btn-default btn-block">フォロー解除する</button></a>
+                        <a href="follow.php?follower_id=<?= $profile_user["id"]; ?>&unfollow"><button class="btn btn-default btn-block">フォロー解除する</button></a>
                     <?php else: ?>
                         <a href="follow.php?follower_id=<?= $profile_user["id"]; ?>"><button class="btn btn-default btn-block">フォローする</button></a>
                     <?php endif; ?>

@@ -7,7 +7,11 @@
 
     $following_id = $_SESSION["id"];
 
-    $sql = "INSERT INTO `followers` (`following_id`, `follower_id`) VALUES (?, ?);";
+    if (isset($_GET["unfollow"])) {
+        $sql ="DELETE FROM `followers` WHERE `following_id` = ?  and `follower_id` = ?";
+    } else {
+        $sql = "INSERT INTO `followers` (`following_id`, `follower_id`) VALUES (?, ?);";
+    }
 
     $data = array($following_id, $follower_id);
     $stmt = $dbh->prepare($sql);

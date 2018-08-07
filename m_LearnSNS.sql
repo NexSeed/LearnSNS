@@ -59,6 +59,7 @@ CREATE TABLE `feeds` (
 --
 
 CREATE TABLE `likes` (
+  `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `feed_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -119,6 +120,35 @@ ALTER TABLE `feeds`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+ALTER TABLE `likes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
+--
+-- テーブルの構造 `followers`
+--
+
+-- CREATE TABLE `followers` (
+--   `id` int(11) UNSIGNED NOT NULL,
+--   `following_id` int(11) DEFAULT NULL,
+--   `follower_id` int(11) DEFAULT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --
+-- -- Indexes for table `followers`
+-- --
+-- ALTER TABLE `followers`
+--   ADD PRIMARY KEY (`id`);
+
+-- --
+-- -- AUTO_INCREMENT for table `followers`
+-- --
+-- ALTER TABLE `followers`
+--   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+-- COMMIT;

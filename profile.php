@@ -6,7 +6,7 @@
 
     $signin_user = get_user($dbh, $_SESSION["id"]);
 
-
+    $profile_user = get_user($dbh, $_GET['user_id']);
 ?>
 
 <!DOCTYPE html>
@@ -23,8 +23,8 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-3 text-center">
-                <img src="user_profile_img/" class="img-thumbnail" />
-                <h2>{ ユーザー名 }</h2>
+                <img src="user_profile_img/<?= $profile_user['img_name'] ?>" class="img-thumbnail" />
+                <h2><?php echo $profile_user["name"]; ?></h2>
                 <a href="follow.php?follower_id="><button class="btn btn-default btn-block">フォローする</button></a>
             </div>
 

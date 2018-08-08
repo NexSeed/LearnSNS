@@ -5,15 +5,15 @@
 
     $follower_id = $_GET["follower_id"];
 
-    $following_id = $_SESSION["id"];
+    $user_id = $_SESSION["id"];
 
     if (isset($_GET["unfollow"])) {
-        $sql ="DELETE FROM `followers` WHERE `following_id` = ?  and `follower_id` = ?";
+        $sql ="DELETE FROM `followers` WHERE `user_id` = ?  and `follower_id` = ?";
     } else {
-        $sql = "INSERT INTO `followers` (`following_id`, `follower_id`) VALUES (?, ?);";
+        $sql = "INSERT INTO `followers` (`user_id`, `follower_id`) VALUES (?, ?);";
     }
 
-    $data = array($following_id, $follower_id);
+    $data = array($user_id, $follower_id);
     $stmt = $dbh->prepare($sql);
     $stmt->execute($data);
 

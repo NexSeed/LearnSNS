@@ -136,7 +136,7 @@ ALTER TABLE `likes`
 
 -- CREATE TABLE `followers` (
 --   `id` int(11) UNSIGNED NOT NULL,
---   `following_id` int(11) DEFAULT NULL,
+--   `user_id` int(11) DEFAULT NULL,
 --   `follower_id` int(11) DEFAULT NULL
 -- ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

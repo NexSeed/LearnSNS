@@ -8,7 +8,9 @@
 
     $profile_user = get_user($dbh, $_GET['user_id']);
 
-    $is_followed = is_followed($dbh, $signin_user['id'], $profile_user['id']);
+    $is_followed = is_followed($dbh, $profile_user['id'], $signin_user['id']);
+
+    $followers = get_follower($dbh, $profile_user['id']);
 
 ?>
 
@@ -30,9 +32,9 @@
                 <h2><?php echo $profile_user['name']; ?></h2>
                 <?php if ($signin_user['id'] != $profile_user['id']): ?>
                     <?php if ($is_followed): ?>
-                        <a href="follow.php?follower_id=<?= $profile_user["id"]; ?>&unfollow"><button class="btn btn-default btn-block">フォロー解除する</button></a>
+                        <a href="follow.php?following_id=<?= $profile_user["id"]; ?>&unfollow"><button class="btn btn-default btn-block">フォロー解除する</button></a>
                     <?php else: ?>
-                        <a href="follow.php?follower_id=<?= $profile_user["id"]; ?>"><button class="btn btn-default btn-block">フォローする</button></a>
+                        <a href="follow.php?following_id=<?= $profile_user["id"]; ?>"><button class="btn btn-default btn-block">フォローする</button></a>
                     <?php endif; ?>
                 <?php endif; ?>
             </div>
@@ -49,17 +51,19 @@
                 <!--タブの中身-->
                 <div class="tab-content">
                     <div id="tab1" class="tab-pane fade in active">
-                        <div class="thumbnail">
-                            <div class="row">
-                                <div class="col-xs-2">
-                                    <img src="user_profile_img/" width="80">
-                                </div>
-                                <div class="col-xs-10">
-                                    名前 { ユーザー名 }<br>
-                                    <a href="#" style="color: #7F7F7F;">{ ここに日付 }からメンバー</a>
+                        <?php foreach ($followers as $follower): ?>
+                            <div class="thumbnail">
+                                <div class="row">
+                                    <div class="col-xs-2">
+                                        <img src="user_profile_img/" width="80">
+                                    </div>
+                                    <div class="col-xs-10">
+                                        名前 <?= $follower['name'] ?><br>
+                                        <a href="#" style="color: #7F7F7F;"><?= $follower['created'] ?>からメンバー</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
 
                     <div id="tab2" class="tab-pane fade">

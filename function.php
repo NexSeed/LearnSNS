@@ -73,3 +73,22 @@
 
         return $is_followed ? true : false;
     }
+
+    function get_follower($dbh, $user_id)
+    {
+        $sql = 'SELECT fw.*, u.name, u.img_name, u.created FROM followers AS fw LEFT JOIN users AS u ON fw.user_id = u.id WHERE fw.user_id = ?';
+
+        $data = array($user_id);
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute($data);
+
+        $follower = [];
+        while (true) {
+            $record = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($record == false) break;
+
+            $follower[] = $record;
+        }
+
+        return $follower;
+    }

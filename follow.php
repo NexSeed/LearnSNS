@@ -3,9 +3,9 @@
 
     require("dbconnect.php");
 
-    $follower_id = $_GET["follower_id"];
+    $user_id = $_GET["following_id"];
 
-    $user_id = $_SESSION["id"];
+    $follower_id = $_SESSION["id"];
 
     if (isset($_GET["unfollow"])) {
         $sql ="DELETE FROM `followers` WHERE `user_id` = ?  and `follower_id` = ?";
@@ -17,5 +17,5 @@
     $stmt = $dbh->prepare($sql);
     $stmt->execute($data);
 
-    header("Location: profile.php?user_id=".$follower_id);
+    header("Location: profile.php?user_id=".$user_id );
     exit();

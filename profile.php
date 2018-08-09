@@ -55,11 +55,11 @@
                             <div class="thumbnail">
                                 <div class="row">
                                     <div class="col-xs-2">
-                                        <img src="user_profile_img/" width="80">
+                                        <img src="user_profile_img/<?= $follower['img_name'] ?>" width="80">
                                     </div>
                                     <div class="col-xs-10">
                                         名前 <?= $follower['name'] ?><br>
-                                        <a href="#" style="color: #7F7F7F;"><?= $follower['created'] ?>からメンバー</a>
+                                        <a href="profile.php?user_id=<?= $follower['id'] ?>" style="color: #7F7F7F;"><?= $follower['created'] ?>からメンバー</a>
                                     </div>
                                 </div>
                             </div>

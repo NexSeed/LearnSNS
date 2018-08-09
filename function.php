@@ -76,7 +76,7 @@
 
     function get_follower($dbh, $user_id)
     {
-        $sql = 'SELECT fw.*, u.name, u.img_name, u.created FROM followers AS fw LEFT JOIN users AS u ON fw.user_id = u.id WHERE fw.user_id = ?';
+        $sql = 'SELECT u.* FROM followers fw JOIN users u ON fw.follower_id = u.id WHERE fw.user_id = ?';
 
         $data = array($user_id);
         $stmt = $dbh->prepare($sql);

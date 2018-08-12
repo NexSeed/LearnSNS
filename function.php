@@ -133,3 +133,17 @@
 
         return $comments;
     }
+
+    function count_comment($dbh, $feed_id)
+    {
+        $sql = "SELECT COUNT(*) AS `comment_cnt` FROM `comments` WHERE `feed_id` = ?";
+
+        $data = [$feed_id];
+
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute($data);
+
+        $comment = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $comment["comment_cnt"];
+    }

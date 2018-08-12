@@ -83,6 +83,8 @@
         // いいね済みかどうかの確認
         $record["is_liked"] = is_liked($dbh, $signin_user['id'], $record["id"]);
 
+        $record["comments"] = get_comment($dbh, $record["id"]);
+
         $feeds[] = $record;
     }
 

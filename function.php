@@ -111,3 +111,25 @@
 
         return $followings;
     }
+
+    function get_comment($dbh, $feed_id)
+    {
+        $sql = "SELECT `c`.*,`u`.`name`,`u`.`img_name` FROM `comments` AS `c` JOIN `users` AS `u` ON `c`.`user_id` = `u`.`id` WHERE `feed_id`=?";
+
+        $data = [$feed_id];
+
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute($data);
+
+        $comments = [];
+
+        while (true) {
+            $comment = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($comment == false) break;
+
+            $comments[] = $comment;
+        }
+
+        return $comments;
+    }

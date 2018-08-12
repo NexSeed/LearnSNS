@@ -1,5 +1,13 @@
 <div class="collapse" id="collapseComment<?php echo $feed["id"] ?>">
     <div class="col-xs-12" style="margin-top:10px">
+
+        <?php foreach ($feed["comments"] as $comment): ?>
+            <p style="margin-top: 30px; margin-bottom: 30px">
+                <img src="user_profile_img/<?php echo $comment["img_name"]; ?>" width="40" class="img-circle">
+                <span style="border-radius: 100px!important; -webkit-appearance:none;background-color:#eff1f3;padding:10px;margin-top:10px;"><a href="#"><?php echo $comment["name"]; ?></a><?php echo $comment["comment"]; ?></span>
+            </p>
+        <?php endforeach; ?>
+
         <form method="post" class="form-inline" action="comment.php" role="comment">
             <div class="form-group">
                 <img src="user_profile_img/<?php echo $signin_user['img_name']; ?>" width="40" class="img-circle">

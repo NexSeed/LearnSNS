@@ -19,6 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `m_LearnSNS`
 --
+CREATE DATABASE LearnSNS;
 
 -- --------------------------------------------------------
 
@@ -59,6 +60,7 @@ CREATE TABLE `feeds` (
 --
 
 CREATE TABLE `likes` (
+  `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `feed_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -101,6 +103,9 @@ ALTER TABLE `feeds`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
+ALTER TABLE `likes`
+  ADD PRIMARY KEY (`id`);
+
 --
 -- AUTO_INCREMENT for dumped tables
 --
@@ -122,3 +127,6 @@ ALTER TABLE `users`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+ALTER TABLE `likes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
